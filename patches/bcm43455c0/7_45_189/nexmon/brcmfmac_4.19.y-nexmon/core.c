@@ -1122,6 +1122,14 @@ static int brcmf_revinfo_read(struct seq_file *s, void *data)
 	return 0;
 }
 
+static void brcmf_core_bus_reset(struct work_struct *work)
+{
+	struct brcmf_pub *drvr = container_of(work, struct brcmf_pub,
+					      bus_reset);
+
+	brcmf_bus_reset(drvr->bus_if);
+}
+
 void brcmf_sdio_debugfs_create(void *bus);
 
 static int brcmf_bus_started(struct brcmf_pub *drvr, struct cfg80211_ops *ops)
@@ -1201,6 +1209,8 @@ static int brcmf_bus_started(struct brcmf_pub *drvr, struct cfg80211_ops *ops)
 	brcmf_feat_debugfs_create(drvr);
 	brcmf_proto_debugfs_create(drvr);
 	brcmf_sdio_debugfs_create(drvr->bus_if->bus_priv.sdio->bus);
+
+    INIT_WORK(&drvr->bus_reset, brcmf_core_bus_reset);
 
 	return 0;
 
@@ -1322,6 +1332,8 @@ void brcmf_fw_crashed(struct device *dev)
 	brcmf_err("Firmware has halted or crashed\n");
 
 	brcmf_dev_coredump(dev);
+
+    schedule_work(&drvr->bus_reset);
 }
 
 void brcmf_detach(struct device *dev)
