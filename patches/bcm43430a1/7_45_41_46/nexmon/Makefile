@@ -190,9 +190,6 @@ ifeq ($(shell uname -m),$(filter $(shell uname -m), armv6l armv7l aarch64))
 	@printf "\033[0;31m  COPYING\033[0m brcmfmac43430-sdio.bin => /lib/firmware/brcm/brcmfmac43430-sdio.bin\n"
 	$(Q)cp brcmfmac43430-sdio.bin /lib/firmware/brcm/brcmfmac43430-sdio.bin
 	$(Q)cp brcmfmac43430-sdio.bin /lib/firmware/brcm/brcmfmac43436s-sdio.bin
-	$(Q)rm -rf /lib/firmware/brcm/brcmfmac43430-sdio.clm_blob
-	$(Q)rm -rf /lib/firmware/brcm/brcmfmac43430-sdio.raspberrypi,3-model-b.clm_blob
-	$(Q)rm -rf /lib/firmware/brcm/brcmfmac43430-sdio.raspberrypi,model-zero-w.clm_blob
 ifneq ("$(wildcard $(DRIVER_FOLDER_NAME)/brcmfmac.ko)", "")
 	@for module in $$(lsmod | grep "^brcmfmac" | awk '{print $$1}'); do \
 		printf "\033[0;31m  UNLOADING\033[0m $$module\n"; \

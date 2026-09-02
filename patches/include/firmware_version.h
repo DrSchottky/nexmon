@@ -79,6 +79,8 @@
 // for CHIP_VER_BCM43438 (wrongly labled) BCM43430a1
 #define FW_VER_7_45_41_26_r640327           40
 #define FW_VER_7_45_41_46                   41
+#define FW_VER_7_45_96_s1                   42
+#define FW_VER_7_45_98                      43
 
 // for CHIP_VER_BCM4356
 #define FW_VER_7_35_101_5_sta               50
@@ -108,6 +110,7 @@
 #define FW_VER_7_45_206                    112
 #define FW_VER_7_45_241                    113
 #define FW_VER_7_45_234_4ca95bb_CY         114
+#define FW_VER_7_45_265                    115
 
 // for CHIP_VER_BCM43909b0
 #define FW_VER_7_15_168_108                210
@@ -133,6 +136,7 @@
 
 // for CHIP_VER_BCM43436b0
 #define FW_VER_9_88_4_65                   710
+#define FW_VER_9_88_4_77                   711
 
 // for CHIP_VER_BCM4389c1
 #define FW_VER_20_101_36_2                 810

@@ -89,6 +89,11 @@ AT(CHIP_VER_BCM4339, FW_VER_ALL, 0x8c69c)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x4E44)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x4E44)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x4F30)
+// relocated from FW_VER_7_45_41_46 (0x4F30) by byte-signature match, unique at
+// every length up to 96B; prologue is instruction-for-instruction identical.
+// No static callers in either version - the DMA ops are dispatched indirectly
+// through the di vtable, so a caller search cannot corroborate this one.
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x56b0)
 void *
 dma_rx(void *di)
 RETURN_DUMMY
@@ -97,6 +102,10 @@ AT(CHIP_VER_BCM4339, FW_VER_ALL, 0x8c6cc)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x5070)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x5070)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x515C)
+// relocated from FW_VER_7_45_41_46 (0x515C) by byte-signature match, unique at
+// every length up to 96B; prologue is instruction-for-instruction identical.
+// Indirectly dispatched like dma_rx, so no static callers to corroborate.
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x58ac)
 void *
 dma_rxfill(void *di)
 RETURN_DUMMY
@@ -269,6 +278,7 @@ AT(CHIP_VER_BCM4356, FW_VER_ALL, 0x2E5C)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x2360)
 AT(CHIP_VER_BCM43430a1, FW_VER_ALL, 0x880B80)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x2390)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x24ec)      // relocated from FW_VER_7_45_41_46 (0x2390) by byte-signature match (48B, unique hit); corroborated - the 7.45.98 RAM RX routine itself calls 0x24ec. Without this, 7_45_98 fell through to the FW_VER_ALL entry 0x880B80, which is NOT memcpy on this chip (a 5-instruction stub that loads one word and returns), so every memcpy silently did nothing
 AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x809344)
 AT(CHIP_VER_BCM4335b0, FW_VER_ALL, 0x12D20)
 AT(CHIP_VER_BCM43596a0, FW_VER_ALL, 0x1d2c)
@@ -281,6 +291,7 @@ AT(CHIP_VER_BCM43455c0, FW_VER_7_45_189, 0x19A018)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_206, 0x19A0F8)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_241, 0x19A0F8)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_234_4ca95bb_CY, 0x19A0E8)
+AT(CHIP_VER_BCM43455c0, FW_VER_7_45_265, 0x19A0F8)
 AT(CHIP_VER_BCM43909b0, FW_VER_ALL, 0x64588)
 AT(CHIP_VER_BCM4361b0, FW_VER_ALL, 0x116D6C)
 AT(CHIP_VER_BCM4366c0, FW_VER_10_10_122_20, 0x45D8)
@@ -383,6 +394,7 @@ AT(CHIP_VER_BCM4356, FW_VER_ALL, 0x89A3C)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x625C)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x625C)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x6348)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x6c30)      // relocated from FW_VER_7_45_41_46 (0x6348): byte-signature match fails here because the body contains a relative BL, so verified by disassembly instead - instruction-for-instruction identical, same ROM callee 0x808744
 AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x80E358)
 AT(CHIP_VER_BCM4335b0, FW_VER_ALL, 0x18B04)
 AT(CHIP_VER_BCM43596a0, FW_VER_ALL, 0x6054)
@@ -410,6 +422,7 @@ AT(CHIP_VER_BCM4358, FW_VER_ALL, 0x8FD1C)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x62A0)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x62A0)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x638C)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x6c74)      // relocated from FW_VER_7_45_41_46 (0x638C) by byte-signature match (32B prologue, unique hit)
 AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x80E300)
 AT(CHIP_VER_BCM4335b0, FW_VER_ALL, 0x18A98)
 AT(CHIP_VER_BCM43596a0, FW_VER_ALL, 0x5FE8)
@@ -418,6 +431,17 @@ AT(CHIP_VER_BCM43455c0, FW_VER_ALL, 0x9C05C)
 AT(CHIP_VER_BCM4361b0, FW_VER_13_38_55_1_sta, 0x177994)
 AT(CHIP_VER_BCM4366c0, FW_VER_10_10_122_20, 0x7930)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x80C144)
+// TODO(bcm43436b0/9_88_4_77): NO entry for this chip at all - it will silently
+// compile a RETURN_DUMMY no-op. That is the exact class of bug this whole port
+// is auditing for, and here it is load-bearing: the hop/RXOV stress ioctl
+// (nexmon/src/ioctl.c case 612) frees in a loop, and wl_monitor_radiotap's
+// error paths rely on it. Derive the address on-device: pkt_buf_get_skb for
+// this chip is ROM 0x807C48 (FW_VER_ALL, above) and free_skb is its immediate
+// ROM neighbour - dump ROM (rom_extraction) and byte-signature relocate from
+// bcm43430a1/7_45_41_46's 0x638C prologue, same as 7_45_98 got 0x6c74.
+// Until then case 612's free loop is a no-op and the probe itself leaks 64
+// buffers per call - run it sparingly before this is resolved.
+// AT(CHIP_VER_BCM43436b0, FW_VER_ALL, 0x????)   <- fill in from ROM dump
 void *
 pkt_buf_free_skb(void *osh, void *p, int send)
 RETURN_DUMMY
@@ -727,7 +751,13 @@ AT(CHIP_VER_BCM4339, FW_VER_ALL, 0x8CB9C)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x1BEAC)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x1BEAC)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x1C0F8)
+// relocated from FW_VER_7_45_41_46 (0x1C0F8) by byte-signature match (32B prologue, unique hit)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x20abc)
 AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_65, 0x1B242)
+// relocated from FW_VER_9_88_4_65 (0x1B242) by 20-byte signature (unique hit,
+// prologue "d0f8 9030 d3f8 8001" matches); confirmed: radiotap TSF decodes
+// correctly on hardware
+AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_77, 0x1B550)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x84F3E0)
 AT(CHIP_VER_BCM4389c1, FW_VER_ALL, 0x1A0FB0)
 void
@@ -805,6 +835,8 @@ AT(CHIP_VER_BCM4339, FW_VER_6_37_32_RC23_34_40_r581243, 0x18C4C8)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x9F38)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x9F38)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0xA024)
+// relocated from FW_VER_7_45_41_46 (0xA024) by byte-signature match (32B prologue, unique hit)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0xbf50)
 AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x81C51C)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x8929FC)
 int
@@ -883,6 +915,9 @@ AT(CHIP_VER_BCM43596a0, FW_VER_ALL, 0x470cc)
 AT(CHIP_VER_BCM43455, FW_VER_ALL, 0x31CE8)
 AT(CHIP_VER_BCM43455c0, FW_VER_ALL, 0x31CE8)
 AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_65, 0xbd4c)
+// relocated from FW_VER_9_88_4_65 (0xBD4C) by 24-byte signature (unique hit,
+// prologue "2de9 f743 1e46 db68" matches); injection path, not yet verified
+AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_77, 0xBCC0)
 AT(CHIP_VER_BCM4366c0, FW_VER_10_10_122_20, 0x230F54)
 AT(CHIP_VER_BCM4375b1, FW_VER_18_41_113_sta, 0x1D9DA0)
 int
@@ -904,6 +939,8 @@ RETURN_DUMMY
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x9DEA)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x9DEA)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x9ED6)
+// relocated from FW_VER_7_45_41_46 (0x9ED6) by byte-signature match (32B prologue, unique hit)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0xbe02)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x82B8FC)
 void *
 wlc_get_txh_info(void *wlc, void *p, void *txh)
@@ -912,12 +949,17 @@ RETURN_DUMMY
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x7ef8)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x7ef8)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x7fe4)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x9f40)      // recovered from the stock value of the function pointer that injection.c's GenericPatch4 overwrites (0x40fe0 holds 0x9f41 = 0x9f40|thumb), the same way 41.46's 0x39674 holds 0x7fe5. Byte/prologue signature search fails here: 7.45.98 recompiled it with a different register list (e92d 4ff0 vs 4ff7) and 'sub sp,#20' instead of pushing r0-r2
 AT(CHIP_VER_BCM4358, FW_VER_7_112_300_14, 0x199b64)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_154, 0x1A1D00)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_189, 0x1A6A84)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_206, 0x1A1EEC)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_234_4ca95bb_CY, 0x1A7BB0)
+AT(CHIP_VER_BCM43455c0, FW_VER_7_45_265, 0x1A2830)
 AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_65, 0xa6d8)
+// relocated from FW_VER_9_88_4_65 (0xA6D8) by 32-byte signature (unique hit,
+// prologue "2de9 f04f cc69 85b0" matches); disasm-confirmed on the dumped image
+AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_77, 0xA644)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x818F28)
 AT(CHIP_VER_BCM4389c1, FW_VER_20_101_57_r1035009, 0x27EF9C)
 int
@@ -934,6 +976,7 @@ AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x8182F8)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_154, 0x1a2438)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_189, 0x1A71BC)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_234_4ca95bb_CY, 0x1A82E8)
+AT(CHIP_VER_BCM43455c0, FW_VER_7_45_265, 0x1A2F68)
 AT(CHIP_VER_BCM4361b0, FW_VER_13_38_55_1_sta, 0x177994)
 int
 wl_sendup(void *wl, void *wlif, void *p)
@@ -942,6 +985,9 @@ RETURN_DUMMY
 AT(CHIP_VER_BCM43596a0, FW_VER_9_96_4_sta_c0, 0x1624AC)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_154, 0x1a2438)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_189, 0x1A71BC)
+// 7.45.98's RAM wl_monitor (0xa5e2) ends in "b.w 0xa46c" with (wl, 0, p_new, 1),
+// mirroring the ROM copy at 0x819510 which tail-calls 0x880f10 the same way.
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0xa46c)
 void
 wl_sendup_newdrv(void *wl, void *wlif, void *p, int numpkt)
 VOID_DUMMY
@@ -949,6 +995,17 @@ VOID_DUMMY
 AT(CHIP_VER_BCM4358, FW_VER_ALL, 0x18628)
 AT(CHIP_VER_BCM4356, FW_VER_7_35_101_5_sta, 0x199112)
 AT(CHIP_VER_BCM43438, FW_VER_ALL, 0x819510)
+// 7.45.98 bypasses the ROM copy at 0x819510 (its stock flash-patch table
+// redirects the enclosing ROM RX routine into RAM at 0xd4e4); the live copy
+// this version actually calls is the RAM one at 0xa5e2.
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0xa5e2)
+// TODO(bcm43436b0/9_88_4_77): no entry. Only needed if monitormode.c has to
+// switch wl_monitor_radiotap's frame delivery from the chained->funcs->xmit
+// path to wl_sendup_newdrv (see the commented alt-delivery block there - it is
+// the 7.45.98 leak-fix pattern). If that swap is made, relocate this from the
+// stock .bin: on 7.45.98 wl_monitor's RAM copy tail-calls it as
+// "b.w <addr>" with args (wl, 0, p_new, 1); find the analogous tail-call in
+// 9_88_4_77's wl_monitor (wrapper row 0xAD7E) and its ROM copy near 0x819510.
 AT(CHIP_VER_BCM43430a1, FW_VER_ALL, 0x819510)
 AT(CHIP_VER_BCM4339, FW_VER_ALL, 0x270F0)
 AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x817ACC)
@@ -958,7 +1015,19 @@ AT(CHIP_VER_BCM43455, FW_VER_ALL, 0x1ED5C)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_154, 0x1A270C)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_189, 0x1A7490)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_234_4ca95bb_CY, 0x1A85BC)
+// Not called by any 7.45.265 patch source (monitormode.c hooks the wl_monitor
+// call *site* directly via BLPatch instead) - kept for parity with 154/189/234_CY
+// and in case a future patch needs it. Weakest evidence in this port: only a
+// 16-byte signature match, though corroborated by the uniform -0x5380 delta
+// from 234_CY seen on wl_send/wl_sendup, and by being the sole BL target at
+// the wl_monitor call site (monitormode.c's 0x1A7604). See
+// REVERSE_ENGINEERING_NOTES.md, "bcm43455c0 / 7.45.265 port".
+AT(CHIP_VER_BCM43455c0, FW_VER_7_45_265, 0x1A323C)
 AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_65, 0xae0a)
+// relocated from FW_VER_9_88_4_65 (0xAE0A) by 24-byte signature (unique hit,
+// prologue "2de9 f041 b2f8 0c80" matches); confirmed: wl_monitor body reads
+// p->len-6 and calls pkt_buf_get_skb; monitor mode works on hardware
+AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_77, 0xAD7E)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x818838)
 void
 wl_monitor(void *wl, void *sts, void *p)
@@ -1508,8 +1577,14 @@ AT(CHIP_VER_BCM4339, FW_VER_6_37_32_RC23_34_43_r639704, 0x1C4D8C)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0x23278)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0x23278)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0x236a4)
+// relocated from FW_VER_7_45_41_46 (0x236a4) by byte-signature match (32B prologue, unique hit)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x29df4)
 AT(CHIP_VER_BCM4330, FW_VER_ALL, 0x826F3C)
 AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_65, 0x8644)
+// relocated from FW_VER_9_88_4_65 (0x8644) by 32-byte signature (unique hit,
+// prologue "10b5 0023 064a 9900" matches); confirmed: radiotap chan_freq
+// decodes correctly on hardware
+AT(CHIP_VER_BCM43436b0, FW_VER_9_88_4_77, 0x85B0)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x86C37C)
 int
 wlc_phy_channel2freq(unsigned int channel)
@@ -1533,6 +1608,7 @@ AT(CHIP_VER_BCM43455c0, FW_VER_7_45_154, 0x1C9FA4)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_189, 0x1CF494)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_206, 0x1CCF20)
 AT(CHIP_VER_BCM43455c0, FW_VER_7_45_234_4ca95bb_CY, 0x1D3A40)
+AT(CHIP_VER_BCM43455c0, FW_VER_7_45_265, 0x1CF9EC)
 AT(CHIP_VER_BCM43455, FW_VER_7_46_77_11, 0x1D2E70)
 AT(CHIP_VER_BCM43455, FW_VER_7_45_59_16, 0x1D0628)
 int
@@ -1929,6 +2005,8 @@ AT(CHIP_VER_BCM4339, FW_VER_6_37_32_RC23_34_43_r639704, 0x193834)
 AT(CHIP_VER_BCM43438, FW_VER_7_45_41_26_r640327, 0xF4A8)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327, 0xF4A8)
 AT(CHIP_VER_BCM43430a1, FW_VER_7_45_41_46, 0xf680)
+// relocated from FW_VER_7_45_41_46 (0xf680) by byte-signature match (32B prologue, unique hit)
+AT(CHIP_VER_BCM43430a1, FW_VER_7_45_98, 0x11ed0)
 AT(CHIP_VER_BCM43439a0, FW_VER_ALL, 0x834194)
 void
 wlc_txfifo(void *wlc, int fifo, void *p, void *txh, unsigned char commit, char txpktpend)

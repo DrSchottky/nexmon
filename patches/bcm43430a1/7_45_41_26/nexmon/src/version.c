@@ -37,7 +37,7 @@
 #include <firmware_version.h>   // definition of firmware version macros
 #include <patcher.h>            // macros used to craete patches such as BLPatch, BPatch, ...
 
-char version[] = "nexmon_ver: " GIT_VERSION "-" BUILD_NUMBER "\nwl%d: Broadcom BCM%s 802.11 Wireless Controller %s\n";
+char version[] = "nexmon_ver: " GIT_VERSION "-" BUILD_NUMBER "\nwl%d: Broadcom BCM%s 802.11 Wireless Controller %s (Nexmon)\n";
 
 __attribute__((at(0x41f74, "", CHIP_VER_BCM43430a1, FW_VER_7_45_41_26_r640327)))
 GenericPatch4(version_patch, version);

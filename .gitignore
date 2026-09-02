@@ -1,0 +1,5 @@
+# JetBrains IDE metadata - local to each dev's machine, never useful in version control
+/.idea/
+
+# Per-machine build identifier, regenerated locally
+/.UUID

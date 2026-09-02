@@ -2,3 +2,9 @@
 *.o
 flash_patch_extractor/fpext
 ucode_extractor/ucodeext
+
+# Locally-fetched cross-toolchain and built nexmon gcc plugin - large, host-specific,
+# not something the repo ships (setup_env.sh expects these paths to exist locally,
+# but they're rebuilt/re-fetched per machine, not committed).
+gcc-arm-none-eabi-5_4-2016q2/
+gcc-nexmon-plugin/nexmon.so

@@ -30,7 +30,13 @@ struct wl_rxsts {
     uint16  datarate;
     uint8   mcs;
     uint8   htflags;
+/* 7.45.98's RAM RX routine builds this struct without the 2-byte hole after
+ * htflags: every field from antenna onward sits 2 bytes lower (confirmed by
+ * comparing field stores in ROM 0x81f414.. against RAM 0xd4e4..). Firmware
+ * versions that still run the ROM routine keep the padding. */
+#ifndef WL_RXSTS_NO_PAD
     uint16  PAD;
+#endif
     uint    antenna;
     uint    pktlength;
     uint32  mactime;
